@@ -45,7 +45,21 @@
         </div>
         <div class="grid grid-cols-3 gap-6">
 
-        
+        @forelse ($category->workshops as $itemNewWorkshop)
+<a href="{{ route('front.details', $itemNewWorkshop->slug) }}" class="card">
+    <div class="flex flex-col h-full justify-between rounded-3xl p-6 gap-9 bg-white">
+        <div class="flex flex-col gap-[18px]">
+            <div class="flex items-center gap-3">
+                <div class="w-16 h-16 rounded-full flex shrink-0 overflow-hidden">
+                    <img src="{{ Storage::url($itemNewWorkshop->instructor->avatar) }}" class="w-full h-full" alt="">
+                </div>
+                <div class="flex flex-col gap-[2px]">
+                    <p class="font-semibold text-lg leading-[27px]">
+                    {{ $itemNewWorkshop->instructor->name }}
+                </p>
+                    <p class="font-medium text-aktiv-grey">{{ $itemNewWorkshop->instructor->occupation }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
