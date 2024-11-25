@@ -4,7 +4,7 @@
     </a>
     <ul class="flex items-center justify-center gap-8">
         <li class="font-medium text-aktiv-grey hover:font-semibold hover:text-aktiv-orange transition-all duration-300">
-            <a href="{{route('frfont.check_booking')}}">View My Booking</a>
+            <a href="{{route('front.check_booking')}}">View My Booking</a>
         </li>
         <li class="font-medium text-aktiv-grey hover:font-semibold hover:text-aktiv-orange transition-all duration-300">
             <a href="">Workshop</a>
