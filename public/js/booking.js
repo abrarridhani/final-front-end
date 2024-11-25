@@ -1,17 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const decrementButton = document.querySelector('#decrement');
-    const incrementButton = document.querySelector('#increment');
-    const countDisplay = document.querySelector('#quantity');
-    const hiddenInput = document.querySelector('#quantity_input');
+    const decrementButton = document.querySelector("#decrement");
+    const incrementButton = document.querySelector("#increment");
+    const countDisplay = document.querySelector("#quantity");
+    const hiddenInput = document.querySelector("#quantity_input");
 
     // Payment details elements
-    const displayQuantity = document.getElementById('display_quantity');
-    const priceDisplay = document.getElementById('sub_total');
-    const taxDisplay = document.getElementById('tax');
-    const totalPriceDisplay = document.getElementById('total_amount');
-    const workshopPrice = document.getElementById('workshopPrice');
+    const displayQuantity = document.getElementById("display_quantity");
+    const priceDisplay = document.getElementById("sub_total");
+    const taxDisplay = document.getElementById("tax");
+    const totalPriceDisplay = document.getElementById("total_amount");
+    const workshopPrice = document.getElementById("workshopPrice");
 
-    const participantsSection = document.getElementById('Attendants-Section');
+    const participantsSection = document.getElementById("Attendants-Section");
 
     // Constants
     const unitPrice = workshopPrice.value; // Price per item
