@@ -34,6 +34,7 @@ class BookingController extends Controller
             $this->bookingService->storeBooking($validated);
             return redirect()->route('front.payment');
         } catch (\Exception $e) {
+            Log::error('Booking creation failed: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Unable to create booking. Please try again.']);
         }
     }
@@ -46,13 +47,14 @@ class BookingController extends Controller
 
         $data = $this->bookingService->getBookingDetails();
 
-        dd($data); // Fix: Add a semicolon to this line.
+        // Debugging line should be removed in production
+        // dd($data); // Ensure to remove this line after debugging.
 
         if (!$data) {
             return redirect()->route('front.index');
         }
 
-        return view('booking.payment', $data); // Assuming $data is an array with booking details.
+        return view('booking.payment', $data); // Ensure $data contains the correct information for the view
     }
 
     public function paymentStore(StorePaymentRequest $request)
@@ -70,7 +72,7 @@ class BookingController extends Controller
 
     public function bookingFinished(BookingTransaction $bookingTransaction)
     {
-        // Add your view logic here.
+        // Optionally, add logic to display booking status, payment details, etc.
         return view('booking.booking_finished', compact('bookingTransaction'));
     }
 

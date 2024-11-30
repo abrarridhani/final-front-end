@@ -1,3 +1,12 @@
+@extends('layouts.app')
+@section('title') Booking {{$workshop->name}} @endsection
+@section('content')
+<div class="h-[112px]">
+    <x-nav />
+</div>
+
+
+
 <div id="background" class="relative w-full">
     <div class="absolute w-full h-[300px] bg-[linear-gradient(0deg,#4EB6F5_0%,#5B8CE9_100%)] -z-10"></div>
 </div>
@@ -26,18 +35,19 @@
                     <div class="card-detail flex flex-col gap-2">
                         <div class="flex items-center gap-3">
                             <div class="flex items-center gap-1">
-                                <img src="{{asset('{{asset('assets/images/icons/calendar-2.svg')}}')}}" class="w-6 h-6 flex shrink-0"
+                                <img src="{{asset('assets/images/icons/calendar-2.svg')}}" class="w-6 h-6 flex shrink-0"
                                     alt="icon">
-                                <span class="font-medium text-aktiv-grey">Tue, 30 May 2024</span>
+                                <span
+                                    class="font-medium text-aktiv-grey">{{$workshop->started_at->format('M d, Y')}}</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <img src="{{asset('{{asset('assets/images/icons/timer.svg')}}')}}" class="w-6 h-6 flex shrink-0"
+                                <img src="{{asset('assets/images/icons/timer.svg')}}" class="w-6 h-6 flex shrink-0"
                                     alt="icon">
-                                <span class="font-medium text-aktiv-grey">09:30 AM - Finish</span>
+                                <span class="font-medium text-aktiv-grey">
+                                    {{$workshop->time_at->format('h:i A')}} - Finish</span>
                             </div>
                         </div>
-                        <h3 class="font-Neue-Plak-bold text-xl">Mastering the Art of Public Speaking: Practical Tips and
-                            Powerful Techniques</h3>
+                        <h3 class="font-Neue-Plak-bold text-xl">{{$workshop->name}}</h3>
                     </div>
                 </div>
                 <div id="closes-section"
@@ -46,58 +56,45 @@
                         <h2 class="font-Neue-Plak-bold text-xl leading-[27.5px]">Instructor Details</h2>
                         <div class="flex items-center gap-3 rounded-xl border border-[#E6E7EB] p-4">
                             <div class="flex w-16 h-16 shrink-0 rounded-full overflow-hidden bg-[#D9D9D9]">
-                                <img src="{{asset('assets/images/photos/photo3.png')}}"
+                                <img src="{{Storage::url($workshop->instructor->avatar)}}"
                                     class="w-full h-full object-cover" alt="photo">
                             </div>
                             <div class="flex flex-col gap-[2px] flex-1">
-                                <p class="font-semibold text-lg leading-[27px]">Megamore S Qie</p>
-                                <p class="font-medium text-aktiv-grey">Motivator Intructor</p>
+                                <p class="font-semibold text-lg leading-[27px]">{{$workshop->instructor->name}}</p>
+                                <p class="font-medium text-aktiv-grey">{{$workshop->instructor->occupation}}</p>
                             </div>
-                            <img src="{{asset('assets/images/icons/verify.svg')}}')}}"
+                            <img src="{{asset('assets/images/icons/verify.svg')}}"
                                 class="flex w-[62px] h-[62px] shrink-0" alt="icon">
                         </div>
                     </div>
                     <div class="flex flex-col gap-4">
                         <h2 class="font-Neue-Plak-bold text-xl leading-[27.5px]">This workshop will teach</h2>
                         <div class="flex flex-col gap-6">
-                            <div class="flex items-center gap-2">
-                                <img src="{{asset('assets/images/icons/tick-circle.svg')}}"
-                                    class="w-6 h-6 flex shrink-0" alt="icon">
-                                <p class="font-semibold text-lg leading-[27px]">Crafting Compelling Messages</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <img src="{{asset('assets/images/icons/tick-circle.svg')}}"
-                                    class="w-6 h-6 flex shrink-0" alt="icon">
-                                <p class="font-semibold text-lg leading-[27px]">Enhancing Delivery Skills</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <img src="{{asset('assets/images/icons/tick-circle.svg')}}"
-                                    class="w-6 h-6 flex shrink-0" alt="icon">
-                                <p class="font-semibold text-lg leading-[27px]">Engaging Your Audience</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <img src="{{asset('assets/images/icons/tick-circle.svg')}}"
-                                    class="w-6 h-6 flex shrink-0" alt="icon">
-                                <p class="font-semibold text-lg leading-[27px]">Practical Exercises</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <img src="{{asset('assets/images/icons/tick-circle.svg')}}"
-                                    class="w-6 h-6 flex shrink-0" alt="icon">
-                                <p class="font-semibold text-lg leading-[27px]">Personal Development Plan</p>
-                            </div>
+
+                            @forelse ($workshop->benefits as $itemBenefit)
+                                <div class="flex item-center gap-2">
+                                    <img src="{{asset('assets/images/icons/tick-circle.svg')}}"
+                                        class="w-6 h-6 flex shrink-0" alt="icon">
+                                    <p class="font-semibold text-lg leading-[27px]">
+                                        {{$itemBenefit->name}}
+                                    </p>
+                                </div>
+                            @empty
+                                <p>belum ada data benefit</p>
+                            @endforelse
                         </div>
                     </div>
                     <div class="flex flex-col gap-4">
                         <h2 class="font-Neue-Plak-bold text-xl leading-[27.5px]">Location Details</h2>
                         <div class="flex flex-col gap-4 rounded-xl border border-[#E6E7EB] p-5 pb-[21px]">
                             <div class="flex w-full h-[180px] rounded-xl overflow-hidden">
-                                <img src="{{asset('assets/images/thumbnails/location.png')}}"
+                                <img src="{{Storage::url($workshop->venue_thumbnail)}}"
                                     class="w-full h-full object-cover" alt="location">
                             </div>
                             <div class="flex flex-col gap-3">
-                                <p class="font-medium leading-[25.6px] text-aktiv-grey">101 Cendrawasih Road, Melati,
-                                    Bandung Wetan, Bandung, West Java, 40116, Indonesia</p>
-                                <a href="#" class="font-semibold text-aktiv-orange">View in Google Maps</a>
+                                <p class="font-medium leading-[25.6px] text-aktiv-grey">{{$workshop->address}}</p>
+                                <a href="https://www.google.com/maps/place/{{$workshop->address}}"
+                                    class="font-semibold text-aktiv-orange">View</a>
                             </div>
                         </div>
                     </div>
@@ -111,7 +108,8 @@
                     </p>
                 </label>
             </section>
-            <form id="Form" action="success.html" class="flex flex-col w-[724px] gap-8">
+            <form id="Form" method="POST" enctype="multipart/form-data" action="{{route('front.payment_store')}}"
+                class="flex flex-col w-[724px] gap-8">
                 <div class="flex flex-col rounded-3xl p-8 gap-8 bg-white">
                     <div class="flex flex-col gap-4">
                         <h2 class="font-Neue-Plak-bold text-xl leading-[27.5px]">Payments Details</h2>
@@ -124,7 +122,7 @@
                             </div>
                             <div class="flex items-center justify-between">
                                 <p class="font-medium text-aktiv-grey">Price</p>
-                                <p class="font-semibold text-lg leading-[27px] text-right">
+                                <p class="font-semibold text-lg leading-[27px] text-right">Rp
                                     Rp {{number_format($orderData['sub_total_amount'], 0, ',', ',')}}
                                 </p>
                             </div>
@@ -136,10 +134,10 @@
                             </div>
                             <hr class="border-[#E6E7EB]">
                             <div class="flex items-center justify-between">
-                                <p class="font-medium text-aktiv-grey">
-                                    Rp {{number_format($orderData['total_amount'], 0, ',', ',')}}
+                                <p class="font-medium text-aktiv-grey">Total Price</p>
+                                <p class="font-semibold text-lg leading-[27px] text-right text-aktiv-red">
+                                    Rp. {{number_format($orderData['total_amount'], 0, ',', ',')}}
                                 </p>
-                                <p class="font-semibold text-lg leading-[27px] text-right text-aktiv-red"> Rp319.680</p>
                             </div>
                         </div>
                     </div>
@@ -156,7 +154,7 @@
                                     <img src="{{asset('assets/images/icons/bank-black.svg')}}"
                                         class="w-6 h-6 shrink-0 hidden group-focus-within:flex group-has-[:valid]:flex"
                                         alt="icon">
-                                    <input type="text" name="bankname" id="bankname"
+                                    <input type="text" name="customer_bank_name" id="bankname"
                                         class="appearance-none bg-transparent w-full outline-none text-lg leading-[27px] font-semibold placeholder:font-medium placeholder:text-aktiv-grey"
                                         placeholder="What is the name of the bank you use?" required>
                                 </div>
@@ -171,7 +169,7 @@
                                     <img src="{{asset('assets/images/icons/profile-circle-black.svg')}}"
                                         class="w-6 h-6 shrink-0 hidden group-focus-within:flex group-has-[:valid]:flex"
                                         alt="icon">
-                                    <input type="text" name="fullname" id="fullname"
+                                    <input type="text" name="customer_bank_account" id="fullname"
                                         class="appearance-none bg-transparent w-full outline-none text-lg leading-[27px] font-semibold placeholder:font-medium placeholder:text-aktiv-grey"
                                         placeholder="Under whose name is this bank account?" required>
                                 </div>
@@ -186,7 +184,7 @@
                                     <img src="{{asset('assets/images/icons/card-edit-black.svg')}}"
                                         class="w-6 h-6 shrink-0 hidden group-focus-within:flex group-has-[:valid]:flex"
                                         alt="icon">
-                                    <input type="text" name="banknumber" id="banknumber"
+                                    <input type="text" name="customer_bank_number" id="banknumber"
                                         class="appearance-none bg-transparent w-full outline-none text-lg leading-[27px] font-semibold placeholder:font-medium placeholder:text-aktiv-grey"
                                         placeholder="What is the bank account number?" required>
                                 </div>
@@ -202,7 +200,8 @@
                             <div class="flex flex-col py-5 px-8 gap-8">
                                 <div class="flex items-center justify-between gap-8">
                                     <div class="flex w-[78px] h-[53px] shrink-0 overflow-hidden">
-                                        <img src="{{asset('assets/images/logos/bca.svg')}}" class="object-contain" alt="bank logo">
+                                        <img src="{{asset('assets/images/logos/bca.svg')}}" class="object-contain"
+                                            alt="bank logo">
                                     </div>
                                     <div class="flex flex-col gap-[2px] w-full">
                                         <p class="font-medium text-aktiv-grey">BCA Activ Bank</p>
@@ -213,7 +212,8 @@
                                 </div>
                                 <div class="flex items-center justify-between gap-8">
                                     <div class="flex w-[78px] h-[53px] shrink-0 overflow-hidden">
-                                        <img src="{{asset('assets/images/logos/bni.svg')}}" class="object-contain" alt="bank logo">
+                                        <img src="{{asset('assets/images/logos/bni.svg')}}" class="object-contain"
+                                            alt="bank logo">
                                     </div>
                                     <div class="flex flex-col gap-[2px] w-full">
                                         <p class="font-medium text-aktiv-grey">BNI Activ Bank</p>
@@ -224,7 +224,8 @@
                                 </div>
                                 <div class="flex items-center justify-between gap-8">
                                     <div class="flex w-[78px] h-[53px] shrink-0 overflow-hidden">
-                                        <img src="{{asset('assets/images/logos/bri.svg')}}" class="object-contain" alt="bank logo">
+                                        <img src="{{asset('assets/images/logos/bri.svg')}}" class="object-contain"
+                                            alt="bank logo">
                                     </div>
                                     <div class="flex flex-col gap-[2px] w-full">
                                         <p class="font-medium text-aktiv-grey">BRI Activ Bank</p>
